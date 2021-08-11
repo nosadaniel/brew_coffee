@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>155338711370-hme8s6bev24t8nq8172qm4ouk02kn93r.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.155338711370-hme8s6bev24t8nq8172qm4ouk02kn93r</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>155338711370-28i4spc7gpqd8q987i0qo0d7pi77em04.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCj_w3Asld44J4QONTNbYhUX_qTZkfR0IA</string>
+	<key>GCM_SENDER_ID</key>
+	<string>155338711370</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.brew.coffee.brewCoffee</string>
+	<key>PROJECT_ID</key>
+	<string>brew-coffe-975a1</string>
+	<key>STORAGE_BUCKET</key>
+	<string>brew-coffe-975a1.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:155338711370:ios:6a63970f05e64f4b7ba1b3</string>
+</dict>
+</plist>
