@@ -19,18 +19,18 @@ class AuthPage extends StatelessWidget {
         decoration: BoxDecoration(
           image: DecorationImage(
               image: AssetImage("assets/images/coffee_bg.png"),
-              fit: BoxFit.cover),
+              fit: BoxFit.fill),
         ),
         child: Obx(() {
           return Column(
             children: [
               Visibility(
                 visible: _appController.isLoggedWidget.value,
-                child: LoginPage(),
+                child: SignupPage(),
               ),
               Visibility(
                 visible: !_appController.isLoggedWidget.value,
-                child: SignupPage(),
+                child: LoginPage(),
               ),
             ],
           );
