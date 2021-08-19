@@ -1,80 +1,108 @@
 import 'dart:developer';
 
-import 'package:brew_coffee/constants/firebase.dart';
-import 'package:brew_coffee/models/user_model.dart';
+import 'package:brew_coffee/controllers/database_controller.dart';
+import 'package:brew_coffee/controllers/userController.dart';
+import 'package:brew_coffee/models/userData.dart';
+
+import 'package:brew_coffee/services/auth_service.dart';
+import 'package:brew_coffee/services/database_service.dart';
+
 import 'package:brew_coffee/view/pages/auth/authPage.dart';
 import 'package:brew_coffee/view/pages/home/home_page.dart';
+
+import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class AuthController extends GetxController {
+  static final AuthController instance = Get.find();
+  DatabaseController _databaseController = Get.find();
+
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
+  TextEditingController username = TextEditingController();
+
+  AuthService _authService = AuthService();
   var isLoading = false.obs;
-  var userModel = UserModel().obs;
-  Rx<User?> firebaseUser = Rx<User?>(auth.currentUser);
-  String userCollection = "brews";
+  var isLogIn = false.obs;
+
+  //initial user with direct access to the firebase instance currentuser
+  Rx<User?> user = Rx<User?>(AuthService.auth.currentUser);
 
   @override
+  // using onReady cause of AuthController was initialized together with
+  // firebase initialization
   void onReady() {
-    firebaseUser.bindStream(auth.userChanges());
+    // bind directly using the firebase instance
+    user.bindStream(AuthService.auth.userChanges());
+    ever(user, _handleAuthChanged);
 
-    ever(firebaseUser, _setInitialScreen);
     super.onReady();
   }
 
-  void _setInitialScreen(User? user) {
-    if (user == null) {
+  _handleAuthChanged(User? login) {
+    if (login == null) {
+      resetAllField();
       Get.offAll(() => AuthPage());
     } else {
       Get.offAll(() => HomePage());
     }
   }
 
-  UserModel _userFromFirebaseUser(User user) {
-    return UserModel(uid: user.uid, email: user.email);
+  signUpWithEmailPassword(TextEditingController username) async {
+    String? uid = await _authService.signUpWithEmailAndPassword(
+        email: email, password: password, username: username);
+    //add userDetails to fireStore
+    UserDataModel _userData =
+        UserDataModel(uid: uid, name: username.text, strength: 0, sugars: "0");
+    await _databaseController.databaseService!.addUser(_userData);
+    //set userController with userData
+    UserController.instance.setUser = _userData;
   }
 
-  Future signupWithEmailPassword(
-      TextEditingController email, TextEditingController password) async {
-    try {
-      UserCredential userCredential = await auth.createUserWithEmailAndPassword(
-          email: email.text, password: password.text);
-      User user = userCredential.user!;
-      //await firebaseFirestore.collection(userCollection).doc(user.uid).g
-      return _userFromFirebaseUser(user);
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        Get.snackbar("Message", 'The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        Get.snackbar("Message", 'The account already exists for that email.');
-      }
-    } catch (e) {
-      print(e);
+  loginWithEmailPassword() async {
+    String? uid = await _authService.signInWithEmailAndPassword(
+        email: email, password: password);
+    //setUser data
+    UserController.instance.setUser = await DatabaseService().userData(uid);
+  }
+
+  logout() async {
+    await _authService.signOut();
+  }
+
+  String? validatePasswordField(String? value) {
+    if (value!.isEmpty) {
+      return "Field must not be empty";
+    } else if (value.length < 6) {
+      return "Password should be more than six characters";
+    } else {
+      return null;
     }
   }
 
-  Future loginWithEmailPassword(
-      TextEditingController email, TextEditingController password) async {
-    try {
-      UserCredential userCredential = await auth.signInWithEmailAndPassword(
-          email: email.text, password: password.text);
-      log(userCredential.toString());
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        Get.snackbar("Message", 'No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        Get.snackbar("Message", 'Wrong password provided for that user.');
-      }
+  String? validateEmailField(String? value) {
+    if (value!.isEmpty) {
+      return "Field must not be empty";
+    } else if (!EmailValidator.validate(value))
+      return "Invalid Email";
+    else {
+      return null;
     }
   }
 
-  Future<void> logout() async {
-    try {
-      return await auth.signOut();
-    } catch (e) {
-      debugPrint(e.toString());
+  String? validateTextField(String? value) {
+    if (value!.isEmpty) {
+      return "Field must not be empty";
+    } else {
+      return null;
     }
+  }
+
+  resetAllField() {
+    email.clear();
+    password.clear();
+    username.clear();
   }
 }

@@ -1,9 +1,13 @@
 import 'package:get/get.dart';
 
+import 'auth_controller.dart';
+
 class AppController extends GetxController {
   var isLoggedWidget = false.obs;
+  final AuthController _authController = Get.find();
 
-  void changeIsLoggedWidget() {
+  changeIsLoggedWidget() {
+    _authController.resetAllField();
     isLoggedWidget.value = !isLoggedWidget.value;
   }
 }

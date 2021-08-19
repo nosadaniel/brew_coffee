@@ -19,6 +19,7 @@ class AuthService {
     try {
       UserCredential userCredential = await auth.signInWithEmailAndPassword(
           email: email.text, password: password.text);
+
       return userCredential.user!.uid;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -58,6 +59,11 @@ class AuthService {
         password.clear();
       }
     } catch (e) {
+      Get.snackbar(
+        "Error creating Account",
+        "Fail to Register User",
+        snackPosition: SnackPosition.BOTTOM,
+      );
       print(e);
     }
   }

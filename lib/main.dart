@@ -1,4 +1,7 @@
 import 'package:brew_coffee/controllers/auth_controller.dart';
+import 'package:brew_coffee/controllers/database_controller.dart';
+import 'package:brew_coffee/controllers/userController.dart';
+import 'package:brew_coffee/services/auth_service.dart';
 import 'package:brew_coffee/view/pages/auth/authPage.dart';
 import 'package:brew_coffee/view/pages/auth/widgets/signup_page.dart';
 import 'package:brew_coffee/view/pages/home/home_page.dart';
@@ -9,7 +12,11 @@ import 'package:get/get.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initialization.then((value) => Get.put(AuthController()));
+  await AuthService.initialization;
+  Get.put(DatabaseController());
+  Get.put(UserController());
+  Get.put(AuthController());
+
   runApp(MyApp());
 }
 
@@ -18,6 +25,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(home: SplashPage());
+    return GetMaterialApp(
+      home: SplashPage(),
+      //theme: Get.theme.buttonTheme.,
+      theme: ThemeData(primaryColor: Colors.brown, accentColor: Colors.white),
+    );
   }
 }

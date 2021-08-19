@@ -1,6 +1,7 @@
 import 'package:brew_coffee/controllers/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:brew_coffee/models/brew_coffe_model.dart';
 
 class SideMenu extends StatelessWidget {
   final AuthController authController;
@@ -13,8 +14,8 @@ class SideMenu extends StatelessWidget {
       child: ListView(
         children: [
           UserAccountsDrawerHeader(
-            accountEmail: Text("userEmail"),
-            accountName: Text("userName"),
+            accountEmail: Text("${authController.user.value!.email}"),
+            accountName: Text("Welcome"),
           ),
           ListTile(
             onTap: () => authController.logout(),

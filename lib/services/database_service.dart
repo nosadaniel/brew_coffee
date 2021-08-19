@@ -33,9 +33,9 @@ class DatabaseService {
     });
   }
 
-  //streams List of specific user
-  Future<UserDataModel> userData(String uid) async {
+  //specific user
+  Future<UserDataModel> userData(String? uid) async {
     DocumentSnapshot _doc = await brewCollections.doc(uid).get();
-    return UserDataModel.fromSnapshot(_doc, uid);
+    return UserDataModel.fromSnapshot(_doc, uid!);
   }
 }
