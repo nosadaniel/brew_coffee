@@ -14,8 +14,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AuthService.initialization;
   Get.put(DatabaseController());
-  Get.put(UserController());
   Get.put(AuthController());
+  Get.put(UserController());
 
   runApp(MyApp());
 }

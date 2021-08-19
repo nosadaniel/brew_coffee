@@ -2,6 +2,7 @@ import 'package:brew_coffee/controllers/auth_controller.dart';
 import 'package:brew_coffee/controllers/database_controller.dart';
 import 'package:brew_coffee/view/pages/auth/widgets/login.dart';
 import 'package:brew_coffee/view/pages/auth/widgets/signup_page.dart';
+import 'package:brew_coffee/view/pages/home/widget/settings_form.dart';
 import 'package:brew_coffee/view/pages/home/widget/side_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,6 +10,11 @@ import 'package:get/get.dart';
 class HomePage extends StatelessWidget {
   final AuthController _authController = AuthController.instance;
   final DatabaseController _dataBaseController = DatabaseController.instance;
+
+  String color(index) {
+    return ".shade${_dataBaseController.brews[index].strength}";
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,8 +53,8 @@ class HomePage extends StatelessWidget {
                   child: ListTile(
                     leading: CircleAvatar(
                       radius: 20,
-                      backgroundColor: Colors.brown[
-                          _dataBaseController.brews[index].strength as int],
+                      backgroundColor: Colors
+                          .brown[_dataBaseController.brews[index].strength],
                       backgroundImage:
                           AssetImage("assets/images/coffee_icon.png"),
                     ),
@@ -71,9 +77,8 @@ class HomePage extends StatelessWidget {
         context: context,
         builder: (context) {
           return Container(
-            padding: EdgeInsets.symmetric(vertical: 20, horizontal: 60),
-            child: Text("afw"),
-          );
+              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 60),
+              child: SettingsForm());
         });
   }
 }

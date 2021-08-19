@@ -1,19 +1,32 @@
+import 'package:brew_coffee/controllers/auth_controller.dart';
+import 'package:brew_coffee/controllers/database_controller.dart';
 import 'package:brew_coffee/models/userData.dart';
 import 'package:get/get.dart';
 
 class UserController extends GetxController {
   static UserController instance = Get.find();
-  var _userDataModel = UserDataModel().obs;
+  DatabaseController _data = DatabaseController.instance;
+  AuthController _user = AuthController.instance;
 
-  UserDataModel get getUser {
-    return _userDataModel.value;
+  var _userData = UserDataModel(strength: 0).obs;
+
+  @override
+  onReady() {
+    _userData.bindStream(_loadUser());
+    super.onReady();
   }
 
-  set setUser(UserDataModel value) {
-    _userDataModel.value = value;
+  UserDataModel get getUser {
+    return _userData.value;
+  }
+
+  Stream<UserDataModel> _loadUser() {
+    return _data.userDetails(_user.user.value!.uid);
   }
 
   void clear() {
-    _userDataModel.value = UserDataModel();
+    _userData.value = UserDataModel(strength: 0);
   }
+
+  userSnapShot() {}
 }

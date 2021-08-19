@@ -10,6 +10,8 @@ import 'package:get/get.dart';
 class DatabaseController extends GetxController {
   static final DatabaseController instance = Get.find();
 
+  final List<String> sugars = ['0', '1', '2', '3', '4'];
+  final List<int> strengths = [100, 200, 300, 400, 500, 600, 700, 800, 900];
   var brews = <BrewCoffeeModel>[].obs;
 
   var isLoading = false.obs;
@@ -29,11 +31,10 @@ class DatabaseController extends GetxController {
     return databaseService!.brewsDataList();
   }
 
-  Future<UserDataModel> userDetails(String uid) {
+  Stream<UserDataModel> userDetails(String uid) {
     isLoading.value = true;
-    var result = databaseService!.userData(uid);
+    return databaseService!.userData(uid);
     isLoading.value = false;
-    return result;
   }
 
   updateUserData(UserDataModel userData) async {

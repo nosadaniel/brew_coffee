@@ -57,15 +57,12 @@ class AuthController extends GetxController {
     UserDataModel _userData =
         UserDataModel(uid: uid, name: username.text, strength: 0, sugars: "0");
     await _databaseController.databaseService!.addUser(_userData);
-    //set userController with userData
-    UserController.instance.setUser = _userData;
   }
 
   loginWithEmailPassword() async {
     String? uid = await _authService.signInWithEmailAndPassword(
         email: email, password: password);
     //setUser data
-    UserController.instance.setUser = await DatabaseService().userData(uid);
   }
 
   logout() async {
