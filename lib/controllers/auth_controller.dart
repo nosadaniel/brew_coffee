@@ -69,7 +69,7 @@ class AuthController extends GetxController {
 
   logout() async {
     await _authService.signOut();
-    //Get.delete<UserController>();
+    Get.find<UserController>().clear();
   }
 
   String? validatePasswordField(String? value) {
