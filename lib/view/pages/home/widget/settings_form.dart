@@ -51,12 +51,10 @@ class SettingsForm extends StatelessWidget {
             ),
             Slider(
               activeColor: Colors.brown[_userController.getUser.strength],
-              inactiveColor:
-                  Colors.brown[_userController.getUser.strength.toInt()],
+              inactiveColor: Colors.brown,
               value: _userController.getUser.strength.toDouble(),
               min: 0.0,
               max: 900.0,
-              divisions: 8,
               onChanged: (value) {
                 _userController.getUser.strength = value.round();
                 print(_userController.getUser.strength);

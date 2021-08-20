@@ -34,10 +34,15 @@ class DatabaseService {
   }
 
   //specific user
-  Stream<UserDataModel> userData(String? uid) {
+  Stream<UserDataModel> userDataStream(String? uid) {
     return brewCollections
         .doc(uid)
         .snapshots()
         .map((snapshot) => UserDataModel.fromSnapshot(snapshot, uid!));
+  }
+
+  Future<UserDataModel> userDataFuture(String? uid) async {
+    DocumentSnapshot _doc = await brewCollections.doc(uid).get();
+    return UserDataModel.fromSnapshot(_doc, uid!);
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:brew_coffee/binding/user_binding.dart';
 import 'package:brew_coffee/controllers/database_controller.dart';
 import 'package:brew_coffee/controllers/userController.dart';
 import 'package:brew_coffee/models/userData.dart';
@@ -46,7 +47,7 @@ class AuthController extends GetxController {
       resetAllField();
       Get.offAll(() => AuthPage());
     } else {
-      Get.offAll(() => HomePage());
+      Get.offAll(() => HomePage(), binding: UserBinding());
     }
   }
 
@@ -62,11 +63,13 @@ class AuthController extends GetxController {
   loginWithEmailPassword() async {
     String? uid = await _authService.signInWithEmailAndPassword(
         email: email, password: password);
-    //setUser data
+    UserController.instance.setUser =
+        await _databaseController.userDetailFuture(uid!);
   }
 
   logout() async {
     await _authService.signOut();
+    //Get.delete<UserController>();
   }
 
   String? validatePasswordField(String? value) {

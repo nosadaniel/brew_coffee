@@ -15,7 +15,6 @@ void main() async {
   await AuthService.initialization;
   Get.put(DatabaseController());
   Get.put(AuthController());
-  Get.put(UserController());
 
   runApp(MyApp());
 }

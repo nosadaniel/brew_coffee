@@ -31,9 +31,15 @@ class DatabaseController extends GetxController {
     return databaseService!.brewsDataList();
   }
 
-  Stream<UserDataModel> userDetails(String uid) {
+  Stream<UserDataModel> userDetailStream(String uid) {
     isLoading.value = true;
-    return databaseService!.userData(uid);
+    return databaseService!.userDataStream(uid);
+    isLoading.value = false;
+  }
+
+  Future<UserDataModel> userDetailFuture(String uid) {
+    isLoading.value = true;
+    return databaseService!.userDataFuture(uid);
     isLoading.value = false;
   }
 

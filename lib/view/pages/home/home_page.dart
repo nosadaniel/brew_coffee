@@ -1,5 +1,6 @@
 import 'package:brew_coffee/controllers/auth_controller.dart';
 import 'package:brew_coffee/controllers/database_controller.dart';
+import 'package:brew_coffee/controllers/userController.dart';
 import 'package:brew_coffee/view/pages/auth/widgets/login.dart';
 import 'package:brew_coffee/view/pages/auth/widgets/signup_page.dart';
 import 'package:brew_coffee/view/pages/home/widget/settings_form.dart';
